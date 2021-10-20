@@ -1,0 +1,12 @@
+workflows:
+  windows:
+    name: Build for Windows
+    scripts:
+      - name: Install Flutter dependencies
+        script: flutter packages pub get
+      - name: Build Windows app
+        script: flutter build windows
+    artifacts:
+      - build/windows/runner/Release/*
+      - build/windows/runner/Debug/*
+      
