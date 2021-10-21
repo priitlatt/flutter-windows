@@ -9,4 +9,7 @@ workflows:
     artifacts:
       - build/windows/runner/Release/*
       - build/windows/runner/Debug/*
-      
+  dummy-job:
+    name: Dummy CI job
+    scripts:
+      - echo "hello"
