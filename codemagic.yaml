@@ -1,5 +1,6 @@
 workflows:
   windows:
+    instance_type: windows
     name: Build for Windows
     scripts:
       - name: Install Flutter dependencies
@@ -10,6 +11,7 @@ workflows:
       - build/windows/runner/Release/*
       - build/windows/runner/Debug/*
   dummy-job:
+    instance_type: windows
     name: Dummy CI job
     scripts:
       - echo "hello"
