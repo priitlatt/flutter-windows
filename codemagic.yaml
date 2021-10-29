@@ -15,3 +15,4 @@ workflows:
     name: Dummy CI job
     scripts:
       - echo "hello"
+      - if ($env:FCI_BRANCH -ne "not a chance") { exit(1) }
