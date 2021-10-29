@@ -20,8 +20,9 @@ workflows:
       - echo "hello"
       - |
         if (Test-Path .\message.txt) {
+            Write-Output '>>> Message from the past:'
             Get-Content .\message.txt
         } else {
-            Write-Output 'No message'
+            Write-Output '>>> No message from the past.'
         }
         New-Item -Path .\message.txt -ItemType File -Value "Cache from build $env:FCI_BUILD_ID at $(date)" -Force
