@@ -19,10 +19,10 @@ workflows:
     scripts:
       - echo "hello"
       - |
-        if (Test-Path $env:$FCI_BUILD_DIR\message.txt) {
+        if (Test-Path "$env:FCI_BUILD_DIR\message.txt") {
             Write-Output '>>> Message from the past:'
-            Get-Content $env:$FCI_BUILD_DIR\message.txt
+            Get-Content "$env:FCI_BUILD_DIR\message.txt"
         } else {
             Write-Output '>>> No message from the past.'
         }
-        New-Item -Path $env:$FCI_BUILD_DIR\message.txt -ItemType File -Value "Cache from build $env:FCI_BUILD_ID at $(date)" -Force
+        New-Item -Path "$env:FCI_BUILD_DIR\message.txt" -ItemType File -Value "Cache from build $env:FCI_BUILD_ID at $(date)" -Force
