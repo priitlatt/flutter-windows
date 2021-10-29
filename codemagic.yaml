@@ -13,6 +13,15 @@ workflows:
   dummy-job:
     instance_type: windows
     name: Dummy CI job
+    cache:
+      cache_paths:
+        - message.txt
     scripts:
       - echo "hello"
-      - if ($env:FCI_BRANCH -ne "not a chance") { exit(1) }
+      - |
+        if (Test-Path .\message.txt) {
+            Get-Content .\message.txt
+        } else {
+            Write-Output 'No message'
+        }
+        New-Item -Path .\message.txt -ItemType File -Value "Cache from build $env:FCI_BUILD_ID at $(date)" -Force
