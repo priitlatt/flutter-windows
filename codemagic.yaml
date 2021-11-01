@@ -5,8 +5,8 @@ workflows:
     scripts:
       - name: Install Flutter dependencies
         script: flutter packages pub get
-      - name: Build Android app bundle
-        script: flutter build appbundle --build-name=1.0.$env:BUILD_NUMBER --build-number=1.0.$env:BUILD_NUMBER
+      - name: Build Windows app
+        script: flutter build windows
     artifacts:
       - build/**/outputs/**/*.apk
       - build/**/outputs/**/*.aab
@@ -20,7 +20,7 @@ workflows:
       - name: Install Flutter dependencies
         script: flutter packages pub get
       - name: Build Windows app
-        script: flutter build app-bundle
+        script: flutter build appbundle --build-name=1.0.$env:BUILD_NUMBER --build-number=1.0.$env:BUILD_NUMBER
     artifacts:
       - build/windows/runner/Release/*
       - build/windows/runner/Debug/*
