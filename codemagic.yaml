@@ -15,14 +15,16 @@ workflows:
     name: Dummy CI job
     cache:
       cache_paths:
-        - $FCI_BUILD_DIR/message.txt
+#         - $FCI_BUILD_DIR/message.txt
+        - $HOME/message.txt
     scripts:
       - echo "hello"
       - |
-        if (Test-Path "$env:FCI_BUILD_DIR\message.txt") {
+        $filePath = "$env:HOME\message.txt"
+        if (Test-Path "$filePath") {
             Write-Output '>>> Message from the past:'
-            Get-Content "$env:FCI_BUILD_DIR\message.txt"
+            Get-Content "$filePath"
         } else {
             Write-Output '>>> No message from the past.'
         }
-        New-Item -Path "$env:FCI_BUILD_DIR\message.txt" -ItemType File -Value "Cache from build $env:FCI_BUILD_ID at $(date)" -Force
+        New-Item -Path "$filePath" -ItemType File -Value "Cache from build $env:FCI_BUILD_ID at $(date)" -Force
