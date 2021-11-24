@@ -10,7 +10,7 @@ workflows:
       vars:
         TENANT_ID: 1
         CLIENT_ID: something something
-        CLIENT_SECRET: null
+        CLIENT_SECRET: ''
     scripts:
       - flutter packages pub get
       - |
