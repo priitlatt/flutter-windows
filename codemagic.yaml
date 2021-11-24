@@ -1,6 +1,51 @@
 workflows:
+  default-workflow:
+    name: Default Workflow
+    instance_type: windows_x2
+    max_build_duration: 60
+    environment:
+      flutter: stable
+      xcode: latest
+      cocoapods: default
+      vars:
+        TENANT_ID: 1
+        CLIENT_ID: something something
+        CLIENT_SECRET: null
+    scripts:
+      - flutter packages pub get
+      - |
+        echo "Write version number to file"
+        New-Item -Path .\version.txt -ItemType File -Value $Env:BUILD_NUMBER
+      - |
+        # build windows
+
+        flutter config --enable-windows-desktop
+        flutter build windows --debug
+        cd build\windows\runner\debug
+        7z a -r ..\debug.zip .\*
+      - |
+        # Remove this script if the msix pub has already been added to your repository
+        flutter pub add msix
+      - flutter pub run msix:create --version e --publisher c --publisher-display-name
+        d --identity-name b --store
+      - |
+        android-app-bundle.exe dump manifest --bundle .\build\app\outputs\bundle\debug\app-debug.aab --xpath '/manifest/@android:versionName'
+
+        android-app-bundle.exe dump manifest --bundle .\build\app\outputs\bundle\debug\app-debug.aab --xpath '/manifest/@android:versionCode'
+
+        type android\local.properties
+    artifacts:
+      - build/windows/runner/*.zip
+      - build/windows/**/*.msix
+      - flutter_drive.log
+    publishing:
+      partner_center:
+        store_id: a
+        tenant_id: $TENANT_ID
+        client_id: $CLIENT_ID
+        client_secret: $CLIENT_SECRET
   windows:
-    instance_type: windows
+    instance_type: windows_x2
     name: Build for Windows
     scripts:
       - name: Install Flutter dependencies
@@ -12,7 +57,7 @@ workflows:
       - build/**/outputs/**/*.aab
       - build/**/outputs/**/mapping.txt
   android:
-    instance_type: windows
+    instance_type: windows_x2
     name: Build for Android
     environment:
       java: 1.8
@@ -25,7 +70,7 @@ workflows:
       - build/windows/runner/Release/*
       - build/windows/runner/Debug/*
   dummy-job:
-    instance_type: windows
+    instance_type: windows_x2
     name: Dummy CI job
     cache:
       cache_paths:
